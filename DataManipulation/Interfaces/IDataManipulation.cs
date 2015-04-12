@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataManipulation.Structs;
+using KnowledgeRepresentation;
 
 namespace DataManipulation.Interfaces
 {
     public interface IDataManipulation
     {
-        Tuple<int, int, int> GetDisarmingProcedure(int beepsLevel);
+        Tuple<Disarming, Disarming, Disarming> GetDisarmingProcedure(int beepsLevel);
     }
 }

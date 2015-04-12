@@ -22,9 +22,10 @@ namespace DataManipulation.DataManipulation
             _hiddenOutputBackpropagationConnector = new BackpropagationConnector(_hiddenLayer, _outputLayer);
             LearnNetwork();
         }
-        
-        public Tuple<int, int, int> GetDisarmingProcedure(int beepsLevel)
+
+        public Tuple<Disarming, Disarming, Disarming> GetDisarmingProcedure(int beepsLevel)
         {
+            throw new NotImplementedException();
             int beep;
             _bombTypeses.Zip(_bombTypeses, (p, q) => p.BeepsLevel - q.BeepsLevel).Min(b => beep = b);
 
