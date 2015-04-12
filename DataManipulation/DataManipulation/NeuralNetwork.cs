@@ -23,9 +23,11 @@ namespace DataManipulation.DataManipulation
             LearnNetwork();
         }
         
-        public DisarmingProcedureStruct GetDisarmingProcedure(int beepsLevel)
+        public Tuple<int, int, int> GetDisarmingProcedure(int beepsLevel)
         {
-            throw new NotImplementedException();
+            int beep;
+            _bombTypeses.Zip(_bombTypeses, (p, q) => p.BeepsLevel - q.BeepsLevel).Min(b => beep = b);
+
         }
 
         private void LearnNetwork()
@@ -33,13 +35,13 @@ namespace DataManipulation.DataManipulation
             _network = new BackpropagationNetwork(_inputLayer, _outputLayer);
             _network.Initialize();
             var trainingSet = new TrainingSet(1, 3);
-            foreach (var tempObject in _bombTypeses)
+            foreach (var bomb in _bombTypeses)
             {
-                trainingSet.Add(new TrainingSample(new double[] { tempObject.BeepsLevel },
+                trainingSet.Add(new TrainingSample(new double[] { bomb.BeepsLevel },
                                                     new double[]{
-                                                        (int)tempObject.FirstStageDisarming, 
-                                                        (int)tempObject.SecondStageDisarming, 
-                                                        (int)tempObject.ThirdStageDisarming
+                                                        (int)bomb.FirstStageDisarming, 
+                                                        (int)bomb.SecondStageDisarming, 
+                                                        (int)bomb.ThirdStageDisarming
                                                     }));
             }
             _network.Learn(trainingSet, 1000);

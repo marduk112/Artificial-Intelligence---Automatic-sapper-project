@@ -9,6 +9,6 @@ namespace DataManipulation.Interfaces
 {
     public interface IDataManipulation
     {
-        DisarmingProcedureStruct GetDisarmingProcedure(int beepsLevel);
+        Tuple<int, int, int> GetDisarmingProcedure(int beepsLevel);
     }
 }
