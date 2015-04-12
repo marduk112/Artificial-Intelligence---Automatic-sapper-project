@@ -1,11 +1,7 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataManipulation.Interfaces;
-using DataManipulation.Structs;
 using KnowledgeRepresentation;
 using KnowledgeRepresentation.Fabrics;
 using KnowledgeRepresentation.Interfaces;
@@ -25,10 +21,8 @@ namespace DataManipulation.DataManipulation
 
         public Tuple<Disarming, Disarming, Disarming> GetDisarmingProcedure(int beepsLevel)
         {
-            throw new NotImplementedException();
-            int beep;
-            _bombTypeses.Zip(_bombTypeses, (p, q) => p.BeepsLevel - q.BeepsLevel).Min(b => beep = b);
-
+            var procedure = _network.Run(new double[] {beepsLevel});
+            return Tuple.Create((Disarming)((int)Math.Round(procedure[0], 0)), (Disarming)((int)Math.Round(procedure[1], 0)), (Disarming)((int)Math.Round(procedure[2], 0)));
         }
 
         private void LearnNetwork()
