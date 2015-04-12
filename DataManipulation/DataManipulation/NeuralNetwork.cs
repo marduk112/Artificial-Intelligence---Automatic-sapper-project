@@ -22,7 +22,30 @@ namespace DataManipulation.DataManipulation
         public Tuple<Disarming, Disarming, Disarming> GetDisarmingProcedure(int beepsLevel)
         {
             var procedure = _network.Run(new double[] {beepsLevel});
-            return Tuple.Create((Disarming)((int)Math.Round(procedure[0], 0)), (Disarming)((int)Math.Round(procedure[1], 0)), (Disarming)((int)Math.Round(procedure[2], 0)));
+            var result = new Disarming[3];
+            var mins = Enumerable.Repeat(100.0, 3).ToArray();
+            foreach (var bomb in _bombTypeses)
+            {
+                var abs1 = Math.Abs((int)bomb.FirstStageDisarming - procedure[0]);
+                var abs2 = Math.Abs((int)bomb.SecondStageDisarming - procedure[1]);
+                var abs3 = Math.Abs((int)bomb.ThirdStageDisarming - procedure[2]);
+                if (mins[0] > abs1)
+                {
+                    mins[0] = abs1;
+                    result[0] = bomb.FirstStageDisarming;
+                }
+                if (mins[1] > abs2)
+                {
+                    mins[1] = abs2;
+                    result[1] = bomb.SecondStageDisarming;
+                }
+                if (mins[2] > abs3)
+                {
+                    mins[2] = abs3;
+                    result[2] = bomb.ThirdStageDisarming;
+                }
+            }
+            return Tuple.Create(result[0], result[1], result[2]);
         }
 
         private void LearnNetwork()
