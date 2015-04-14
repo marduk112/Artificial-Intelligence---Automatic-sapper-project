@@ -16,7 +16,7 @@ namespace KnowledgeRepresentation.Bombs
 
         public DemolitionExplosiveBomb()
         {
-            BeepsLevel = 90;
+            BeepsLevel = 3;
             FirstStageDisarming = Disarming.CutGreenWire;
             SecondStageDisarming = Disarming.CutControlWire;
             ThirdStageDisarming = Disarming.CutYellowWire;

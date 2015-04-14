@@ -15,7 +15,7 @@ namespace KnowledgeRepresentation.Fabrics
                 case BombTypes.Explosive:
                     return new ExplosiveBomb();
                 case BombTypes.DemolitionExplosive:
-                    return new DemolitionBomb();
+                    return new DemolitionExplosiveBomb();
                 case BombTypes.Ball:
                     return new BallBomb();
                 case BombTypes.Mine:

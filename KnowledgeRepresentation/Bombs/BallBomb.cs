@@ -16,7 +16,7 @@ namespace KnowledgeRepresentation.Bombs
 
         public BallBomb()
         {
-            BeepsLevel = 30;
+            BeepsLevel = 1;
             FirstStageDisarming = Disarming.CutControlWire;
             SecondStageDisarming = Disarming.CutYellowWire;
             ThirdStageDisarming = Disarming.CutRedWire;

@@ -62,13 +62,13 @@ namespace DataManipulation.DataManipulation
                                                         (int)bomb.ThirdStageDisarming
                                                     }));
             }
-            _network.Learn(trainingSet, 1000);
-            //_network.StopLearning();
+            _network.Learn(trainingSet, 100000);
+            _network.StopLearning();
         }
 
-        private readonly SigmoidLayer _inputLayer = new SigmoidLayer(1);
-        private readonly SigmoidLayer _hiddenLayer = new SigmoidLayer(6);
-        private readonly LinearLayer _outputLayer = new LinearLayer(3);
+        private readonly LinearLayer _inputLayer = new LinearLayer(1);
+        private readonly SigmoidLayer _hiddenLayer = new SigmoidLayer(30);
+        private readonly LogarithmLayer _outputLayer = new LogarithmLayer(3);
         private readonly BackpropagationConnector _inputHiddenBackpropagationConnector;
         private readonly BackpropagationConnector _hiddenOutputBackpropagationConnector;
         private BackpropagationNetwork _network;
