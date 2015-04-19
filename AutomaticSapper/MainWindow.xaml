@@ -1,8 +1,38 @@
 ﻿<Window x:Class="AutomaticSapper.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <Window.Resources>
+        <DataTemplate x:Key="DataTemplate_Level2">
+           <!-- <Button Content="{Binding}"/>-->
+            <Label Content="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DataTemplate_Level1">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplate_Level2}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="20">
+                            
+                        </UniformGrid>
+
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
         
+        
+
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="grasslight-big.png"/>
+    </Window.Background>
+    <Grid>
+        <Button x:Name="button" Width="100" Height="100" Margin="0,0,0,0">button</Button>
+        <ItemsControl x:Name="lst" ItemTemplate="{DynamicResource DataTemplate_Level1}"/>
+        <Canvas x:Name="Canv">
+            <Button x:Name="bu" Width="100" Height="100"></Button>
+        </Canvas>
     </Grid>
 </Window>
