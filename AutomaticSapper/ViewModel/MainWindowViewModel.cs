@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Timers;
+using System.Windows;
 using System.Windows.Media;
 using AutomaticSapper.Annotations;
 using Timer = System.Timers.Timer;
@@ -47,6 +49,15 @@ namespace AutomaticSapper.ViewModel
             aTimer.Enabled = true;
             CreateBoard();
         }
+        public TranslateTransform SapperTransform
+        {
+            get { return _sapperTransform; }
+            set
+            {
+                _sapperTransform = value;
+                OnPropertyChanged();
+            }
+        }
 
         void aTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -74,16 +85,6 @@ namespace AutomaticSapper.ViewModel
             }
         }
 
-        public TranslateTransform SapperTransform
-        {
-            get { return _sapperTransform; }
-            set
-            {
-                _sapperTransform = value;
-                OnPropertyChanged();
-            }
-        }
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -101,7 +102,7 @@ namespace AutomaticSapper.ViewModel
                 for (int j = 0; j < 20; j++)
                 {
                     Bombs.Add(new List<string>());
-                    int rand = rnd.Next(25);
+                    int rand = rnd.Next(25) + 1;
                     switch (rand)
                     {
                         case 0:
@@ -132,5 +133,6 @@ namespace AutomaticSapper.ViewModel
         private TranslateTransform _sapperTransform;
         private int _width, _height;
         private bool _isIncrement = true;
+        private List<TranslateTransform> _bombsPositions = new List<TranslateTransform>(); 
     }
 }
