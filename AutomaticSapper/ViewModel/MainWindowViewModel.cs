@@ -64,7 +64,8 @@ namespace AutomaticSapper.ViewModel
                         _y += 26;
                         _isIncrement = true;
                     }
-                    SapperTransform = new TranslateTransform(_x, _y);
+                    SapperTransform.X = _x;
+                    SapperTransform.Y = _y;
                     if (_isIncrement)
                         _x++;
                     else
