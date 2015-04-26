@@ -23,6 +23,7 @@ namespace AutomaticSapper
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static Button playerX;
         public MainWindow()
         {
             List<List<String>> lsts = new List<List<String>>();
@@ -30,7 +31,7 @@ namespace AutomaticSapper
             BallBomb d = new BallBomb();
             Random rnd = new Random();
             String text;
-            int x = 0;
+            playerX = bu;
             
             Timer aTimer = new Timer(100);
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
@@ -74,18 +75,27 @@ namespace AutomaticSapper
             InitializeComponent();
 
             lst.ItemsSource = lsts;
-            button.Margin = new Thickness(100, 100, 0, 0);
+            
         }
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             seT();
+
         }
 
         private static void seT()
         {
-            //double actualTop = Canvas.GetTop(bu);
+            //MainWindow myWindow = Application.Current.MainWindow as MainWindow;
+            //Button myButton = myWindow.bu;
+
+            //double actualTop = Canvas.GetTop(myButton);
             //Canvas.SetTop(bu, 100);
+        }
+
+        private void bu_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     
     }

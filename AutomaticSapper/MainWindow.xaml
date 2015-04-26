@@ -5,7 +5,6 @@
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <DataTemplate x:Key="DataTemplate_Level2">
-           <!-- <Button Content="{Binding}"/>-->
             <Label Content="{Binding}"/>
         </DataTemplate>
 
@@ -29,10 +28,38 @@
         <ImageBrush ImageSource="grasslight-big.png"/>
     </Window.Background>
     <Grid>
-        <Button x:Name="button" Width="100" Height="100" Margin="0,0,0,0">button</Button>
         <ItemsControl x:Name="lst" ItemTemplate="{DynamicResource DataTemplate_Level1}"/>
         <Canvas x:Name="Canv">
-            <Button x:Name="bu" Width="100" Height="100"></Button>
+            <Button x:Name="bu" Width="100" Height="100" Margin="0,0,0,0" Click="bu_Click"></Button>
         </Canvas>
+        <Rectangle
+            Name="MovingRect"
+            Fill="Red"
+            Width="10"
+            Height="10"
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Rectangle.Style>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Rectangle.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)"
+                                            From="0" To="400" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+            <Rectangle.RenderTransform>
+                <TranslateTransform X="10" Y="10" />
+            </Rectangle.RenderTransform>
+        </Rectangle>
     </Grid>
 </Window>
