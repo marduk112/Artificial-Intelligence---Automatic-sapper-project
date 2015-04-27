@@ -127,6 +127,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataManipulation\DataManipulation.csproj">
+      <Project>{DFEF6536-63BD-4260-978B-C03BCDDB6EC8}</Project>
+      <Name>DataManipulation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KnowledgeRepresentation\KnowledgeRepresentation.csproj">
       <Project>{becb25f4-c3b3-4bfb-aee1-f79866e4a83b}</Project>
       <Name>KnowledgeRepresentation</Name>

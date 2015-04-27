@@ -8,15 +8,15 @@
         <viewModel:MainWindowViewModel></viewModel:MainWindowViewModel>
     </Window.DataContext>
     <Window.Resources>
+       
         <DataTemplate x:Key="DataTemplate_Level2">
-            <Label Content="{Binding}"/>
+             <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged}" Content="{Binding BombId, UpdateSourceTrigger=PropertyChanged}"/>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate_Level1">
             <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplate_Level2}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="20">
-                        </UniformGrid>
+                        <UniformGrid Columns="20"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
@@ -26,19 +26,32 @@
         <ImageBrush ImageSource="grasslight-big.png"/>
     </Window.Background>
     <Grid>
-        <ItemsControl x:Name="lst" ItemsSource="{Binding Bombs}" ItemTemplate="{DynamicResource DataTemplate_Level1}"/>
+        <ItemsControl x:Name="lst" ItemsSource="{Binding Bombs}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Canvas Height="Auto" Width="Auto">
+                        <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding BombId}"/>
+                    </Canvas>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
         <Canvas x:Name="Canv">
             <Button x:Name="bu" Width="100" Height="100" Margin="0,0,0,0" ></Button>
         </Canvas>
-        <Rectangle
-            Name="MovingRect"
-            Fill="Red"
-            Width="10"
-            Height="10"
-            Grid.Row="1"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            RenderTransform="{Binding SapperTransform}">
-        </Rectangle>
+        <Canvas>
+            <Rectangle
+                Name="MovingRect"
+                Fill="Red"
+                Width="10"
+                Height="10"
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                RenderTransform="{Binding SapperTransform}"
+                Canvas.Top="{Binding CanvasTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Canvas.Left="{Binding CanvasLeft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            </Rectangle>
+        </Canvas>
     </Grid>
 </Window>
