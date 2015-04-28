@@ -48,7 +48,6 @@ namespace AutomaticSapper.ViewModel
         public MainWindowViewModel()
         {
             Bombs = new ObservableCollection<Bomb>();
-            //SapperTransform = new TranslateTransform{X = 0, Y = 0};
             Width = 750;
             Height = 550;
             CanvasLeft = 10;
@@ -58,15 +57,6 @@ namespace AutomaticSapper.ViewModel
             aTimer.Enabled = true;
             CreateBoard();
         }
-        /*public TranslateTransform SapperTransform
-        {
-            get { return _sapperTransform; }
-            set
-            {
-                _sapperTransform = value;
-                OnPropertyChanged();
-            }
-        }*/
 
         public int CanvasTop
         {
@@ -140,12 +130,12 @@ namespace AutomaticSapper.ViewModel
         private void CreateBoard()
         {
             var rnd = new Random();
-            string text;
             for (var i = 0; i < 20; i++)
             {
                 for (var j = 0; j < 20; j++)
                 {
                     var rand = rnd.Next(25) + 1;
+                    string text;
                     switch (rand)
                     {
                         case 1:
@@ -180,7 +170,6 @@ namespace AutomaticSapper.ViewModel
         }
 
         private static int _x = 10, _y = 8, _canvasLeft, _canvasTop;
-        private TranslateTransform _sapperTransform;
         private int _width, _height;
         private bool _isIncrement = true;
         private List<TranslateTransform> _bombsPositions = new List<TranslateTransform>();

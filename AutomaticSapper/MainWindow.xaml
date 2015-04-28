@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         xmlns:viewModel="clr-namespace:AutomaticSapper.ViewModel"
+        xmlns:bombConverter="clr-namespace:AutomaticSapper.Converter"
         Loaded="Window_Loaded">
     <Window.DataContext>
         <viewModel:MainWindowViewModel></viewModel:MainWindowViewModel>
     </Window.DataContext>
     <Window.Resources>
-       
+        <bombConverter:BombConverter x:Key="BombConverter"></bombConverter:BombConverter>
         <DataTemplate x:Key="DataTemplate_Level2">
              <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged}" Content="{Binding BombId, UpdateSourceTrigger=PropertyChanged}"/>
         </DataTemplate>
@@ -30,27 +31,29 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas Height="Auto" Width="Auto">
-                        <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="{Binding BombId}"/>
+                        <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                               Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                               Content="{Binding BombId, Converter={StaticResource BombConverter}}">
+                        </Label>
                     </Canvas>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         
-        <Canvas x:Name="Canv">
-            <Button x:Name="bu" Width="100" Height="100" Margin="0,0,0,0" ></Button>
-        </Canvas>
+        <Canvas x:Name="Canv"/>
         <Canvas>
             <Rectangle
                 Name="MovingRect"
-                Fill="Red"
-                Width="10"
-                Height="10"
+                Width="30"
+                Height="30"
                 Grid.Row="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                RenderTransform="{Binding SapperTransform}"
                 Canvas.Top="{Binding CanvasTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 Canvas.Left="{Binding CanvasLeft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="robot.png"></ImageBrush>
+                </Rectangle.Fill>
             </Rectangle>
         </Canvas>
     </Grid>
