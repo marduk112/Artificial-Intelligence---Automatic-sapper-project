@@ -53,7 +53,21 @@ namespace DataManipulation.DataManipulation
             _network = new BackpropagationNetwork(_inputLayer, _outputLayer);
             _network.Initialize();
             var trainingSet = new TrainingSet(1, 3);
-            foreach (var bomb in _bombTypeses)
+            foreach (var bomb in Enum.GetValues(typeof(BombTypes)).Cast<BombTypes>())
+            {
+                if (bomb != BombTypes.Mine)
+                {
+                    var b = BombFabric.CreateBomb(bomb);
+                    if (b != null)
+                        trainingSet.Add(new TrainingSample(new double[] { b.BeepsLevel },
+                                                        new double[]{
+                                                            (int)b.FirstStageDisarming, 
+                                                            (int)b.SecondStageDisarming, 
+                                                            (int)b.ThirdStageDisarming
+                                                        }));
+                }
+            }
+            /*foreach (var bomb in _bombTypeses)
             {
                 trainingSet.Add(new TrainingSample(new double[] { bomb.BeepsLevel },
                                                     new double[]{
@@ -61,7 +75,7 @@ namespace DataManipulation.DataManipulation
                                                         (int)bomb.SecondStageDisarming, 
                                                         (int)bomb.ThirdStageDisarming
                                                     }));
-            }
+            }*/
             _network.Learn(trainingSet, 100000);
             _network.StopLearning();
         }

@@ -17,9 +17,9 @@ namespace KnowledgeRepresentation.Bombs
         public Mine()
         {
             BeepsLevel = 5;
-            FirstStageDisarming = Disarming.CutControlWire;
-            SecondStageDisarming = Disarming.CutBlueWire;
-            ThirdStageDisarming = Disarming.CutGreenWire;
+            FirstStageDisarming = Disarming.CutRedWire;
+            SecondStageDisarming = Disarming.CutGreenWire;
+            ThirdStageDisarming = Disarming.CutBlueWire;
         }
     }
 }
