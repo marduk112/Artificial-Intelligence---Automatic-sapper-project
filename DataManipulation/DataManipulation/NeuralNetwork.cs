@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using DataManipulation.Interfaces;
 using KnowledgeRepresentation;
 using KnowledgeRepresentation.Fabrics;
@@ -16,11 +18,12 @@ namespace DataManipulation.DataManipulation
         {
             _inputHiddenBackpropagationConnector = new BackpropagationConnector(_inputLayer, _hiddenLayer);
             _hiddenOutputBackpropagationConnector = new BackpropagationConnector(_hiddenLayer, _outputLayer);
-            LearnNetwork();
+            _learnNetworkTask = LearnNetworkAsync();
         }
 
-        public Tuple<Disarming, Disarming, Disarming> GetDisarmingProcedure(int beepsLevel)
+        public async Task<Tuple<Disarming, Disarming, Disarming>> GetDisarmingProcedure(int beepsLevel)
         {
+            await _learnNetworkTask;
             var procedure = _network.Run(new double[] {beepsLevel});
             var result = new Disarming[3];
             var mins = Enumerable.Repeat(100.0, 3).ToArray();
@@ -48,38 +51,25 @@ namespace DataManipulation.DataManipulation
             return Tuple.Create(result[0], result[1], result[2]);
         }
 
-        private void LearnNetwork()
+        async Task LearnNetworkAsync()
         {
             _network = new BackpropagationNetwork(_inputLayer, _outputLayer);
             _network.Initialize();
             var trainingSet = new TrainingSet(1, 3);
-            foreach (var bomb in Enum.GetValues(typeof(BombTypes)).Cast<BombTypes>())
+            foreach (var b in from bomb in Enum.GetValues(typeof(BombTypes)).Cast<BombTypes>() where bomb != BombTypes.Mine select BombFabric.CreateBomb(bomb) into b where b != null select b)
             {
-                if (bomb != BombTypes.Mine)
-                {
-                    var b = BombFabric.CreateBomb(bomb);
-                    if (b != null)
-                        trainingSet.Add(new TrainingSample(new double[] { b.BeepsLevel },
-                                                        new double[]{
-                                                            (int)b.FirstStageDisarming, 
-                                                            (int)b.SecondStageDisarming, 
-                                                            (int)b.ThirdStageDisarming
-                                                        }));
-                }
+                trainingSet.Add(new TrainingSample(new double[] { b.BeepsLevel },
+                    new double[]{
+                        (int)b.FirstStageDisarming, 
+                        (int)b.SecondStageDisarming, 
+                        (int)b.ThirdStageDisarming
+                    }));
             }
-            /*foreach (var bomb in _bombTypeses)
-            {
-                trainingSet.Add(new TrainingSample(new double[] { bomb.BeepsLevel },
-                                                    new double[]{
-                                                        (int)bomb.FirstStageDisarming, 
-                                                        (int)bomb.SecondStageDisarming, 
-                                                        (int)bomb.ThirdStageDisarming
-                                                    }));
-            }*/
             _network.Learn(trainingSet, 100000);
             _network.StopLearning();
         }
 
+        private readonly Task _learnNetworkTask;
         private readonly LinearLayer _inputLayer = new LinearLayer(1);
         private readonly SigmoidLayer _hiddenLayer = new SigmoidLayer(30);
         private readonly LogarithmLayer _outputLayer = new LogarithmLayer(3);

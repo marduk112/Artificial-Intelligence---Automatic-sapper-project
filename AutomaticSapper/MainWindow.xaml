@@ -11,7 +11,7 @@
     <Window.Resources>
         <bombConverter:BombConverter x:Key="BombConverter"></bombConverter:BombConverter>
         <DataTemplate x:Key="DataTemplate_Level2">
-             <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged}" Content="{Binding BombId, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Canvas.Top="{Binding BombCanvasTop, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="{Binding BombCanvasLeft, UpdateSourceTrigger=PropertyChanged}" Content="{Binding BombId, UpdateSourceTrigger=PropertyChanged}"/>
         </DataTemplate>
         <DataTemplate x:Key="DataTemplate_Level1">
             <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplate_Level2}">
@@ -23,9 +23,9 @@
             </ItemsControl>
         </DataTemplate>
     </Window.Resources>
-    <Window.Background>
+    <!--<Window.Background>
         <ImageBrush ImageSource="grasslight-big.png"/>
-    </Window.Background>
+    </Window.Background>-->
     <Grid>
         <ItemsControl x:Name="lst" ItemsSource="{Binding Bombs}">
             <ItemsControl.ItemTemplate>
@@ -39,7 +39,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
+
         <Canvas x:Name="Canv"/>
         <Canvas>
             <Rectangle
@@ -55,6 +55,7 @@
                     <ImageBrush ImageSource="robot.png"></ImageBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <Button Content="Neural Network" Command="{Binding NeuralNetworkButton}" CommandParameter="0" Canvas.Left="651" Width="91"/>
         </Canvas>
     </Grid>
 </Window>

@@ -16,6 +16,7 @@ using DataManipulation.Interfaces;
 using KnowledgeRepresentation;
 using KnowledgeRepresentation.Fabrics;
 using KnowledgeRepresentation.Interfaces;
+using Microsoft.Practices.Prism.Commands;
 using Timer = System.Timers.Timer;
 
 namespace AutomaticSapper.ViewModel
@@ -25,6 +26,7 @@ namespace AutomaticSapper.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<Bomb> Bombs { get; private set; }
         public SynchronizationContext ViewContext { get; set; }
+        public DelegateCommand<string> NeuralNetworkButton { get; set; }
 
         public int Width
         {
@@ -48,6 +50,7 @@ namespace AutomaticSapper.ViewModel
         public MainWindowViewModel()
         {
             Bombs = new ObservableCollection<Bomb>();
+            NeuralNetworkButton = new DelegateCommand<string>(ChooseDataManipulationMethod, _ => !_runmethod.Equals(NeuralNetwork));
             Width = 750;
             Height = 550;
             CanvasLeft = 10;
@@ -80,27 +83,26 @@ namespace AutomaticSapper.ViewModel
 
         void aTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (ViewContext != null)
+            lock (_monitor)
             {
-                ViewContext.Post(_ =>
+                if (ViewContext != null)
                 {
-                    foreach (var bomb in Bombs)
+                    ViewContext.Post(async _ =>
                     {
-                        if (Math.Abs(CanvasLeft - bomb.BombCanvasLeft) <= 0 
-                            && Math.Abs(CanvasTop - bomb.BombCanvasTop) <= 13
-                            && bomb.BombId != "" && bomb.BombId != "^" && bomb.BombId != "&")
+                        foreach (var bomb in Bombs.Where(bomb => Math.Abs(CanvasLeft - bomb.BombCanvasLeft) <= 0
+                                                                 && Math.Abs(CanvasTop - bomb.BombCanvasTop) <= 13
+                                                                 && bomb.BombId != "" && bomb.BombId != "^" && bomb.BombId != "&"))
                         {
-                            var result = _model.GetDisarmingProcedure(int.Parse(bomb.BombId));
-                            var bombFound = _bombTypeses.SingleOrDefault(b => b.BeepsLevel == int.Parse(bomb.BombId));
+                            var result = await _runmethod.GetDisarmingProcedure(int.Parse(bomb.BombId));
+                            var bombFound = _bombTypeses.Single(b => b.BeepsLevel == int.Parse(bomb.BombId));
                             var bombDisarmingProcedure = Tuple.Create(bombFound.FirstStageDisarming,
                                 bombFound.SecondStageDisarming, bombFound.ThirdStageDisarming);
                             bomb.BombId = result.Equals(bombDisarmingProcedure) ? "^" : "&";
                         }
-                    }
-                   
-                    CanvasLeft = _x;
-                    CanvasTop = _y;
 
+                        CanvasLeft = _x;
+                        CanvasTop = _y;
+                    }, null);
                     if (_x >= Width)
                     {
                         _y += 26;
@@ -116,7 +118,8 @@ namespace AutomaticSapper.ViewModel
                         _x++;
                     else
                         _x--;
-                }, null);
+                    
+                }
             }
         }
 
@@ -127,6 +130,17 @@ namespace AutomaticSapper.ViewModel
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void ChooseDataManipulationMethod(string method)
+        {
+            lock (_monitor)
+            {
+                if (method == "0")
+                {
+                    _runmethod = NeuralNetwork;
+                    NeuralNetworkButton.RaiseCanExecuteChanged();
+                }
+            }
+        }
         private void CreateBoard()
         {
             var rnd = new Random();
@@ -169,12 +183,14 @@ namespace AutomaticSapper.ViewModel
             }
         }
 
+        private readonly object _monitor = new object();
+        private IDataManipulation _runmethod = NeuralNetwork;
+        private static readonly NeuralNetwork NeuralNetwork = new NeuralNetwork();
         private static int _x = 10, _y = 8, _canvasLeft, _canvasTop;
         private int _width, _height;
         private bool _isIncrement = true;
         private List<TranslateTransform> _bombsPositions = new List<TranslateTransform>();
         private readonly List<IBomb> _bombTypeses = Enum.GetValues(typeof(BombTypes)).Cast<BombTypes>().Select(BombFabric.CreateBomb).Where(tempObject => tempObject != null).ToList();
-        private readonly IDataManipulation _model = new NeuralNetwork();
     }
 
     public class Bomb : INotifyPropertyChanged
