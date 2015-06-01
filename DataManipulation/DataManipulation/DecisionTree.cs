@@ -7,6 +7,7 @@ using numl;
 using KnowledgeRepresentation;
 using numl.Model;
 using numl.Supervised.DecisionTree;
+using DataManipulation.Interfaces;
 
 namespace DataManipulation.DataManipulation
 {
@@ -91,28 +92,57 @@ namespace DataManipulation.DataManipulation
         }
 
     }
-    public class DecisionTree
+    public class DecisionTree : IDataManipulation
     { 
         private BombTypes _typeBomb;
+        private readonly Task _learnTreeTask;
+        private LearningModel _model;
 
-        public BombTypes TypeBomb
+        public DecisionTree()
         {
-            get { return _typeBomb; }
-            set { _typeBomb = value; }
+            _learnTreeTask = GenericTree();
         }
-        
-        public LearningModel GenericTree()
+        async Task GenericTree()
         {
             var data = BombDecisionTree.GetData();
             var d = Descriptor.Create<BombDecisionTree>();
             var g = new DecisionTreeGenerator(d);
             g.SetHint(false);
-            var model = Learner.Learn(data, 0.80, 1000, g);
-
-            return model;
+            _model = Learner.Learn(data, 0.80, 1000, g);
         }
 
-        public BombDecisionTree DisarmingDecisionTree(LearningModel model, string idBomb, Disarming step1, Disarming step2, Disarming step3)
+        public async Task<Tuple<Disarming, Disarming, Disarming>> GetDisarmingProcedure(int beepsLevel)
+        {
+            await _learnTreeTask;
+            var result = new Disarming[3];
+            switch (beepsLevel)
+            {
+                case 1:
+                    _typeBomb = BombTypes.Ball;
+                    break;
+                case 2:
+                    _typeBomb = BombTypes.Demolition;
+                    break;
+                case 3:
+                    _typeBomb = BombTypes.DemolitionExplosive;
+                    break;
+                case 4:
+                    _typeBomb = BombTypes.Explosive;
+                    break;
+                case 5:
+                    _typeBomb = BombTypes.Mine;
+                    break;
+            }
+
+            var _result = _model.Model.Predict(new BombDecisionTree
+            {
+                bomb = _typeBomb
+            });
+
+            return Tuple.Create(result[0], result[1], result[2]);
+        }
+
+        private BombDecisionTree DisarmingDecisionTree(LearningModel model, string idBomb, Disarming step1, Disarming step2, Disarming step3)
         {
 
             switch (int.Parse(idBomb))
