@@ -87,6 +87,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\BombConverter.cs" />
+    <Compile Include="Converter\DisarmedStatusConverter.cs" />
+    <Compile Include="Infos\DisarmingInfo.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
@@ -138,6 +140,10 @@
     <ProjectReference Include="..\KnowledgeRepresentation\KnowledgeRepresentation.csproj">
       <Project>{becb25f4-c3b3-4bfb-aee1-f79866e4a83b}</Project>
       <Name>KnowledgeRepresentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovementAlgorithms\MovementAlgorithms.csproj">
+      <Project>{19F4DC7D-8A4F-4A55-BDCB-73D060110608}</Project>
+      <Name>MovementAlgorithms</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

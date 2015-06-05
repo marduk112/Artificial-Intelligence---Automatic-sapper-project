@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticSapper", "AutomaticSapper.csproj", "{5381CAF8-4E35-4E2B-AC0C-5A33DA860160}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DFEF6536-63BD-4260-978B-C03BCDDB6EC8} = {DFEF6536-63BD-4260-978B-C03BCDDB6EC8}
+		{19F4DC7D-8A4F-4A55-BDCB-73D060110608} = {19F4DC7D-8A4F-4A55-BDCB-73D060110608}
 		{BECB25F4-C3B3-4BFB-AEE1-F79866E4A83B} = {BECB25F4-C3B3-4BFB-AEE1-F79866E4A83B}
 	EndProjectSection
 EndProject
@@ -29,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManipulationTests", "..
 		{BECB25F4-C3B3-4BFB-AEE1-F79866E4A83B} = {BECB25F4-C3B3-4BFB-AEE1-F79866E4A83B}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovementAlgorithms", "..\MovementAlgorithms\MovementAlgorithms.csproj", "{19F4DC7D-8A4F-4A55-BDCB-73D060110608}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +54,10 @@ Global
 		{717929E9-6B08-4EDD-A4FA-EFEF81D94CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{717929E9-6B08-4EDD-A4FA-EFEF81D94CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{717929E9-6B08-4EDD-A4FA-EFEF81D94CC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F4DC7D-8A4F-4A55-BDCB-73D060110608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F4DC7D-8A4F-4A55-BDCB-73D060110608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F4DC7D-8A4F-4A55-BDCB-73D060110608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F4DC7D-8A4F-4A55-BDCB-73D060110608}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

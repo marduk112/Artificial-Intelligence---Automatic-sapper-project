@@ -19,7 +19,7 @@ namespace DataManipulationTests
             var result = _neural.GetDisarmingProcedure(1);
             var bomb = BombFabric.CreateBomb(BombTypes.Ball);
             var tuple = Tuple.Create(bomb.FirstStageDisarming, bomb.SecondStageDisarming, bomb.ThirdStageDisarming);
-            Assert.AreEqual(tuple, result);
+            Assert.AreEqual(tuple, result.Result);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace DataManipulationTests
             var result = _neural.GetDisarmingProcedure(2);
             var bomb = BombFabric.CreateBomb(BombTypes.Demolition);
             var tuple = Tuple.Create(bomb.FirstStageDisarming, bomb.SecondStageDisarming, bomb.ThirdStageDisarming);
-            Assert.AreEqual(tuple, result);
+            Assert.AreEqual(tuple, result.Result);
         }
         [Test]
         public void NeuralNetworkTestForDemolitionExplosiveBomb()
@@ -36,7 +36,7 @@ namespace DataManipulationTests
             var result = _neural.GetDisarmingProcedure(3);
             var bomb = BombFabric.CreateBomb(BombTypes.DemolitionExplosive);
             var tuple = Tuple.Create(bomb.FirstStageDisarming, bomb.SecondStageDisarming, bomb.ThirdStageDisarming);
-            Assert.AreEqual(tuple, result);
+            Assert.AreEqual(tuple, result.Result);
         }
         [Test]
         public void NeuralNetworkTestForExplosiveBomb()
@@ -44,7 +44,7 @@ namespace DataManipulationTests
             var result = _neural.GetDisarmingProcedure(4);
             var bomb = BombFabric.CreateBomb(BombTypes.Explosive);
             var tuple = Tuple.Create(bomb.FirstStageDisarming, bomb.SecondStageDisarming, bomb.ThirdStageDisarming);
-            Assert.AreEqual(tuple, result);
+            Assert.AreEqual(tuple, result.Result);
         }
         [Test]
         public void NeuralNetworkTestForMine()
@@ -52,7 +52,7 @@ namespace DataManipulationTests
             var result = _neural.GetDisarmingProcedure(5);
             var bomb = BombFabric.CreateBomb(BombTypes.Mine);
             var tuple = Tuple.Create(bomb.FirstStageDisarming, bomb.SecondStageDisarming, bomb.ThirdStageDisarming);
-            Assert.AreEqual(tuple, result);
+            Assert.AreEqual(tuple, result.Result);
         }
 
         readonly NeuralNetwork _neural = new NeuralNetwork();

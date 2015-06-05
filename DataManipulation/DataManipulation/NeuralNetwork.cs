@@ -24,6 +24,7 @@ namespace DataManipulation.DataManipulation
         public async Task<Tuple<Disarming, Disarming, Disarming>> GetDisarmingProcedure(int beepsLevel)
         {
             await _learnNetworkTask;
+            _network.StopLearning();
             var procedure = _network.Run(new double[] {beepsLevel});
             var result = new Disarming[3];
             var mins = Enumerable.Repeat(100.0, 3).ToArray();
@@ -66,7 +67,6 @@ namespace DataManipulation.DataManipulation
                     }));
             }
             _network.Learn(trainingSet, 100000);
-            _network.StopLearning();
         }
 
         private readonly Task _learnNetworkTask;
