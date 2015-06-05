@@ -11,5 +11,6 @@ namespace AutomaticSapper.Infos
     {
         public BombTypes BombType { get; set; }
         public string DisarmedStatus { get; set; }
+        public string DataManipulationAlgorithm { get; set; }
     }
 }

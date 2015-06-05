@@ -110,6 +110,7 @@ namespace AutomaticSapper.ViewModel
                             {
                                 BombType = (BombTypes) (bombFound.BeepsLevel - 1),
                                 DisarmedStatus = bomb.BombId,
+                                DataManipulationAlgorithm = _disarmedMethod,
                             };
                             DisarmingInfos.Add(info);
                         }
@@ -206,9 +207,11 @@ namespace AutomaticSapper.ViewModel
                 {
                     case "0":
                         _runmethod = NeuralNetwork;
+                        _disarmedMethod = "neural network";
                         break;
                     case "1":
                         _runmethod = DecisionTree;
+                        _disarmedMethod = "decision tree";
                         break;
                 }
                 NeuralNetworkButton.RaiseCanExecuteChanged();
@@ -266,6 +269,7 @@ namespace AutomaticSapper.ViewModel
         private bool _isIncrement = true;
         private List<TranslateTransform> _bombsPositions = new List<TranslateTransform>();
         private readonly List<IBomb> _bombTypeses = Enum.GetValues(typeof(BombTypes)).Cast<BombTypes>().Select(BombFabric.CreateBomb).Where(tempObject => tempObject != null).ToList();
+        private string _disarmedMethod = "neural network";
 
         //For DepthFirstAlgorithm
         private Point _destinationPoint;
