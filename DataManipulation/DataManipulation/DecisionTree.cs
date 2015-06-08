@@ -41,7 +41,7 @@ namespace DataManipulation.DataManipulation
                 SecondStageDisarming = Disarming.CutControlWire, ThirdStageDisarming = Disarming.CutYellowWire},
             new BombDecisionTree { Successfull = true, bomb=BombTypes.Explosive, FirstStageDisarming = Disarming.CutRedWire, 
                 SecondStageDisarming = Disarming.CutGreenWire,ThirdStageDisarming = Disarming.CutBlueWire},
-            new BombDecisionTree { Successfull = true, bomb=BombTypes.Mine, FirstStageDisarming = Disarming.CutControlWire, 
+            new BombDecisionTree { Successfull = true, bomb=BombTypes.Mine, FirstStageDisarming = Disarming.CutRedWire, 
                 SecondStageDisarming = Disarming.CutBlueWire, ThirdStageDisarming = Disarming.CutGreenWire},
 
             new BombDecisionTree { Successfull = false, bomb=BombTypes.Explosive, FirstStageDisarming = Disarming.CutControlWire, 
@@ -93,7 +93,7 @@ namespace DataManipulation.DataManipulation
 
     }
     public class DecisionTree : IDataManipulation
-    { 
+    {
         private BombTypes _typeBomb;
         private readonly Task _learnTreeTask;
         private LearningModel _model;
@@ -108,7 +108,7 @@ namespace DataManipulation.DataManipulation
             var d = Descriptor.Create<BombDecisionTree>();
             var g = new DecisionTreeGenerator(d);
             g.SetHint(false);
-            _model = Learner.Learn(data, 0.80, 1000, g);
+            _model = Learner.Learn(data, 0.80, 10000, g);
         }
 
         public async Task<Tuple<Disarming, Disarming, Disarming>> GetDisarmingProcedure(int beepsLevel)
@@ -138,6 +138,39 @@ namespace DataManipulation.DataManipulation
             {
                 bomb = _typeBomb
             });
+            var _resultStr = _result.ToString();
+
+            if (String.Compare(_resultStr, "true") == 1)
+            {
+                switch (beepsLevel)
+                {
+                    case 0:
+                        result[0] = Disarming.CutControlWire;
+                        result[1] = Disarming.CutYellowWire;
+                        result[2] = Disarming.CutRedWire;
+                        break;
+                    case 1:
+                        result[0] = Disarming.CutBlueWire;
+                        result[1] = Disarming.CutGreenWire;
+                        result[2] = Disarming.CutRedWire;
+                        break;
+                    case 2:
+                        result[0] = Disarming.CutGreenWire;
+                        result[1] = Disarming.CutControlWire;
+                        result[2] = Disarming.CutYellowWire;
+                        break;
+                    case 3:
+                        result[0] = Disarming.CutRedWire;
+                        result[1] = Disarming.CutGreenWire;
+                        result[2] = Disarming.CutBlueWire;
+                        break;
+                    case 4:
+                        result[0] = Disarming.CutRedWire;
+                        result[1] = Disarming.CutGreenWire;
+                        result[2] = Disarming.CutBlueWire;
+                        break;
+                }
+            }
 
             return Tuple.Create(result[0], result[1], result[2]);
         }
@@ -172,7 +205,7 @@ namespace DataManipulation.DataManipulation
                 ThirdStageDisarming = step3
             });
 
-            return result;     
+            return result;
         }
     }
 }

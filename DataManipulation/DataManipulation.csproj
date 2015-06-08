@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataManipulation\DecisionTree.cs" />
+    <Compile Include="DataManipulation\GeneticAlg.cs" />
     <Compile Include="DataManipulation\NeuralNetwork.cs" />
     <Compile Include="Interfaces\IDataManipulation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

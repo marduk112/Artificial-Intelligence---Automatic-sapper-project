@@ -59,6 +59,7 @@
             </Rectangle>
             <Button Content="Neural Network" Command="{Binding NeuralNetworkButton}" CommandParameter="0" Canvas.Left="651" Width="91"/>
             <Button Content="Decision Tree" Command="{Binding DecisionTreeButton}" CommandParameter="1" Canvas.Left="651" Width="91" Canvas.Top="20"/>
+            <Button Content="Genetic Algorithm" Command="{Binding GeneticAlgorithmButton}" CommandParameter="2" Canvas.Left="651" Width="91" Canvas.Top="40"/>
             <ListView Height="519" Canvas.Left="742" Width="266" ItemsSource="{Binding DisarmingInfos}" SelectedItem="{Binding SelectedDisarmingInfo}" SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="infos:DisarmingInfo">

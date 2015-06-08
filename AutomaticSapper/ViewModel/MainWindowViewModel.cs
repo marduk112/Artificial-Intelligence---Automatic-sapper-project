@@ -31,6 +31,7 @@ namespace AutomaticSapper.ViewModel
         public SynchronizationContext ViewContext { get; set; }
         public DelegateCommand<string> NeuralNetworkButton { get; set; }
         public DelegateCommand<string> DecisionTreeButton { get; set; }
+        public DelegateCommand<string> GeneticAlgorithmButton { get; set; }
         public DisarmingInfo SelectedDisarmingInfo { get; set; }
 
         public int Width
@@ -58,6 +59,7 @@ namespace AutomaticSapper.ViewModel
             DisarmingInfos = new ObservableCollection<DisarmingInfo>();
             NeuralNetworkButton = new DelegateCommand<string>(ChooseDataManipulationMethod, _ => !_runmethod.Equals(NeuralNetwork));
             DecisionTreeButton = new DelegateCommand<string>(ChooseDataManipulationMethod, _ => !_runmethod.Equals(DecisionTree));
+            GeneticAlgorithmButton = new DelegateCommand<string>(ChooseDataManipulationMethod, _ => !_runmethod.Equals(GeneticAlgorithm));
             Width = 750;
             Height = 550;
             CanvasLeft = -1;
@@ -213,9 +215,14 @@ namespace AutomaticSapper.ViewModel
                         _runmethod = DecisionTree;
                         _disarmedMethod = "decision tree";
                         break;
+                    case "2":
+                        _runmethod = GeneticAlgorithm;
+                        _disarmedMethod = "genetic algorithm";
+                        break;
                 }
                 NeuralNetworkButton.RaiseCanExecuteChanged();
                 DecisionTreeButton.RaiseCanExecuteChanged();
+                GeneticAlgorithmButton.RaiseCanExecuteChanged();
             }
         }
         private void CreateBoard()
@@ -264,6 +271,7 @@ namespace AutomaticSapper.ViewModel
         private IDataManipulation _runmethod = NeuralNetwork;
         private static readonly NeuralNetwork NeuralNetwork = new NeuralNetwork();
         private static readonly  DecisionTree DecisionTree = new DecisionTree();
+        private static readonly GeneticAlg GeneticAlgorithm = new GeneticAlg();
         private static int _x = 10, _y = 8, _canvasLeft, _canvasTop;
         private int _width, _height;
         private bool _isIncrement = true;
